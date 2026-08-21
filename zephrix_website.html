@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zephrix Technologies LLC — AI Products, ERP, Cloud & QA Engineering</title>
+<style>
+  :root{
+    --ink:#0E1524; --ink2:#1A2340; --slate:#4A5A75; --mist:#8496AE;
+    --line:#E4E9F0; --paper:#FFFFFF; --fog:#F5F8FC; --fog2:#EDF3FA;
+    --blue:#2B5CE6; --azure:#1E86DB; --cyan:#16B5D0; --sky:#4D7BFF;
+    --glow:rgba(43,92,230,.14);
+    --r:16px; --rs:10px;
+    --shadow:0 1px 2px rgba(14,21,36,.04),0 12px 32px rgba(14,21,36,.06);
+    --shadow-lg:0 24px 60px rgba(14,21,36,.14);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Inter","Segoe UI",system-ui,-apple-system,sans-serif;
+    color:var(--ink);background:var(--paper);line-height:1.6;
+    font-size:16px;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  h1,h2,h3,h4{line-height:1.12;letter-spacing:-.02em;font-weight:800}
+  a{text-decoration:none;color:inherit}
+  .wrap{max-width:1200px;margin:0 auto;padding:0 28px}
+  .eyebrow{font-size:12px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--blue);display:flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan))}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:15px;padding:13px 24px;border-radius:var(--rs);border:none;cursor:pointer;transition:.22s;font-family:inherit}
+  .btn-primary{background:linear-gradient(120deg,var(--blue),var(--azure));color:#fff;box-shadow:0 8px 24px var(--glow)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px var(--glow)}
+  .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  /* ---- NAV ---- */
+  header{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.82);backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:20px;letter-spacing:-.03em}
+  .logo svg{width:42px;height:34px;flex-shrink:0}
+  .logo .llc{font-size:10px;letter-spacing:.14em;color:var(--mist);font-weight:600;text-transform:uppercase}
+  .navlinks{display:flex;gap:30px;align-items:center}
+  .navlinks a{font-size:14.5px;font-weight:500;color:var(--slate);transition:.18s;position:relative}
+  .navlinks a:hover{color:var(--ink)}
+  .navtoggle{display:none;background:none;border:none;cursor:pointer;flex-direction:column;gap:5px}
+  .navtoggle span{width:24px;height:2px;background:var(--ink);border-radius:2px;transition:.2s}
+
+  /* ---- HERO ---- */
+  .hero{position:relative;padding:96px 0 80px;overflow:hidden}
+  .hero-bg{position:absolute;inset:0;z-index:0;pointer-events:none}
+  .streak{position:absolute;height:2px;border-radius:2px;opacity:.5;animation:drift linear infinite}
+  @keyframes drift{0%{transform:translateX(-120%)}100%{transform:translateX(120vw)}}
+  .hero-grid{position:relative;z-index:2;display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center}
+  .hero h1{font-size:clamp(38px,5.4vw,66px);margin:20px 0}
+  .hero h1 .grad{background:linear-gradient(115deg,var(--blue),var(--cyan));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.lead{font-size:19px;color:var(--slate);max-width:560px;margin-bottom:32px}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap}
+  .hero-trust{margin-top:38px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;color:var(--mist);font-size:13px;font-weight:600}
+  .hero-trust b{color:var(--slate)}
+  /* hero panel */
+  .hero-panel{position:relative;background:linear-gradient(160deg,var(--ink),var(--ink2));border-radius:22px;padding:26px;box-shadow:var(--shadow-lg);overflow:hidden}
+  .hero-panel::before{content:"";position:absolute;top:-40%;right:-30%;width:80%;height:80%;background:radial-gradient(circle,var(--glow),transparent 70%);opacity:.8}
+  .hp-head{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+  .hp-dot{width:10px;height:10px;border-radius:50%}
+  .hp-title{color:#fff;font-size:13px;font-weight:600;margin-left:6px;opacity:.85}
+  .hp-row{display:flex;align-items:center;justify-content:space-between;padding:13px 15px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:11px;margin-bottom:10px}
+  .hp-row span{color:#C7D4EA;font-size:13.5px;font-weight:500;display:flex;align-items:center;gap:9px}
+  .hp-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+  .hp-ic{width:26px;height:26px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px}
+
+  /* ---- SECTION ---- */
+  section{padding:88px 0}
+  .sec-head{max-width:680px;margin-bottom:52px}
+  .sec-head.center{margin:0 auto 52px;text-align:center}
+  .sec-head.center .eyebrow{justify-content:center}
+  .sec-head h2{font-size:clamp(30px,3.6vw,44px);margin:16px 0 14px}
+  .sec-head p{font-size:17.5px;color:var(--slate)}
+  .alt{background:var(--fog)}
+
+  /* ---- STATS ---- */
+  .stats{background:linear-gradient(135deg,var(--ink),var(--ink2));position:relative;overflow:hidden}
+  .stats::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,var(--glow),transparent 55%)}
+  .stats-grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
+  .stat{text-align:center}
+  .stat .num{font-size:clamp(38px,4.6vw,56px);font-weight:800;background:linear-gradient(120deg,#fff,#9FC4FF);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:-.03em}
+  .stat .lbl{color:#93A8C8;font-size:14px;font-weight:500;margin-top:6px}
+
+  /* ---- SERVICES ---- */
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .svc{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:30px 28px;transition:.25s;position:relative;overflow:hidden}
+  .svc::before{content:"";position:absolute;left:0;top:0;height:3px;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:.35s}
+  .svc:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:transparent}
+  .svc:hover::before{width:100%}
+  .svc-ic{width:52px;height:52px;border-radius:13px;background:linear-gradient(135deg,var(--fog2),#fff);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+  .svc-ic svg{width:26px;height:26px}
+  .svc h3{font-size:20px;margin-bottom:9px}
+  .svc p{font-size:14.5px;color:var(--slate);margin-bottom:16px}
+  .svc ul{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .svc li{font-size:13.5px;color:var(--slate);display:flex;align-items:center;gap:9px}
+  .svc li::before{content:"";width:15px;height:15px;border-radius:4px;background:var(--fog2);flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232B5CE6' stroke-width='3.5'%3E%3Cpath d='M20 6L9 17l-5-5'/%3E%3C/svg%3E");background-size:11px;background-repeat:no-repeat;background-position:center}
+
+  /* ---- INDUSTRIES ---- */
+  .ind-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:16px}
+  .ind{background:var(--paper);border:1px solid var(--line);border-radius:var(--rs);padding:22px 14px;text-align:center;transition:.2s}
+  .ind:hover{border-color:var(--blue);transform:translateY(-3px);box-shadow:var(--shadow)}
+  .ind .ic{font-size:26px;margin-bottom:9px}
+  .ind div.nm{font-size:13px;font-weight:600;color:var(--ink2)}
+
+  /* ---- TECH STACK ---- */
+  .stack-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:26px}
+  .stack-col{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:30px}
+  .stack-col h4{font-size:14px;text-transform:uppercase;letter-spacing:.1em;color:var(--blue);margin-bottom:18px}
+  .chips{display:flex;flex-wrap:wrap;gap:9px}
+  .chip{font-size:13px;font-weight:600;padding:8px 15px;background:var(--fog);border:1px solid var(--line);border-radius:30px;color:var(--slate);transition:.18s}
+  .chip:hover{background:var(--blue);color:#fff;border-color:var(--blue)}
+  .partners{display:flex;flex-wrap:wrap;gap:14px;margin-top:20px;justify-content:center}
+  .partner{padding:14px 26px;background:var(--paper);border:1px solid var(--line);border-radius:var(--rs);font-weight:700;font-size:16px;color:var(--ink2);letter-spacing:-.01em}
+  .partner span{color:var(--blue)}
+
+  /* ---- CASE STUDIES ---- */
+  .case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .case{border-radius:var(--r);overflow:hidden;border:1px solid var(--line);background:var(--paper);transition:.25s}
+  .case:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+  .case-top{padding:26px;color:#fff;position:relative;overflow:hidden;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end}
+  .case-top.c1{background:linear-gradient(135deg,#2B5CE6,#1E86DB)}
+  .case-top.c2{background:linear-gradient(135deg,#0E1524,#2B3A63)}
+  .case-top.c3{background:linear-gradient(135deg,#16B5D0,#1E86DB)}
+  .case-tag{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;opacity:.85;margin-bottom:8px}
+  .case-top h3{font-size:20px}
+  .case-body{padding:22px 26px}
+  .case-body p{font-size:14px;color:var(--slate);margin-bottom:16px}
+  .case-metrics{display:flex;gap:20px}
+  .case-metrics .m .v{font-size:22px;font-weight:800;color:var(--blue)}
+  .case-metrics .m .k{font-size:11.5px;color:var(--mist);font-weight:600}
+
+  /* ---- ABOUT ---- */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+  .about-vis{background:linear-gradient(160deg,var(--ink),var(--ink2));border-radius:22px;padding:40px;box-shadow:var(--shadow-lg);position:relative;overflow:hidden}
+  .about-vis::before{content:"";position:absolute;bottom:-30%;left:-20%;width:70%;height:70%;background:radial-gradient(circle,var(--glow),transparent 70%)}
+  .pillars{position:relative;z-index:2;display:flex;flex-direction:column;gap:16px}
+  .pillar{display:flex;gap:15px;align-items:flex-start;padding:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px}
+  .pillar .pn{font-size:13px;font-weight:800;color:var(--cyan);flex-shrink:0;width:26px}
+  .pillar h4{color:#fff;font-size:15px;margin-bottom:3px}
+  .pillar p{color:#A7B6D0;font-size:13px;line-height:1.5}
+  .about-txt h2{font-size:clamp(28px,3.4vw,40px);margin:16px 0 18px}
+  .about-txt p{color:var(--slate);font-size:16px;margin-bottom:16px}
+  .vals{display:flex;gap:26px;margin-top:24px;flex-wrap:wrap}
+  .val b{display:block;font-size:28px;font-weight:800;color:var(--ink);letter-spacing:-.02em}
+  .val span{font-size:13px;color:var(--mist)}
+
+  /* ---- TEAM ---- */
+  .team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px}
+  .member{text-align:center}
+  .avatar{width:96px;height:96px;border-radius:50%;margin:0 auto 15px;display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:800;color:#fff;position:relative}
+  .avatar::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--cyan);opacity:.4}
+  .member h4{font-size:16px}
+  .member .role{font-size:13px;color:var(--blue);font-weight:600;margin:2px 0 8px}
+  .member p{font-size:12.5px;color:var(--slate);padding:0 8px}
+
+  /* ---- TESTIMONIALS ---- */
+  .quote-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .quote{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:28px;position:relative}
+  .quote .mark{font-size:60px;font-weight:800;color:var(--fog2);line-height:.6;font-family:Georgia,serif;position:absolute;top:22px;right:22px}
+  .quote p{font-size:14.5px;color:var(--ink2);font-style:italic;margin-bottom:20px;position:relative;z-index:2}
+  .quote .who{display:flex;align-items:center;gap:12px}
+  .quote .who .av{width:42px;height:42px;border-radius:50%;color:#fff;font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center}
+  .quote .who b{font-size:14px;display:block}
+  .quote .who span{font-size:12px;color:var(--mist)}
+
+  /* ---- CAREERS ---- */
+  .careers-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+  .jobs{display:flex;flex-direction:column;gap:12px}
+  .job{display:flex;align-items:center;justify-content:space-between;padding:20px 24px;background:var(--paper);border:1px solid var(--line);border-radius:var(--rs);transition:.2s;cursor:pointer}
+  .job:hover{border-color:var(--blue);transform:translateX(4px);box-shadow:var(--shadow)}
+  .job h4{font-size:16px;margin-bottom:3px}
+  .job .meta{font-size:12.5px;color:var(--mist)}
+  .job .arrow{color:var(--blue);font-size:20px;transition:.2s}
+  .job:hover .arrow{transform:translateX(4px)}
+
+  /* ---- CONTACT ---- */
+  .contact-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:48px}
+  .contact-info h2{font-size:clamp(28px,3.4vw,40px);margin:16px 0 16px}
+  .contact-info p{color:var(--slate);margin-bottom:28px;font-size:16px}
+  .cinfo-row{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+  .cinfo-ic{width:44px;height:44px;border-radius:11px;background:var(--fog2);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+  .cinfo-row b{font-size:14px;display:block}
+  .cinfo-row span{font-size:13.5px;color:var(--slate)}
+  form{background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:32px;box-shadow:var(--shadow)}
+  .frow{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .fg{margin-bottom:16px}
+  .fg label{font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2);display:block;margin-bottom:7px}
+  .fg input,.fg select,.fg textarea{width:100%;padding:12px 14px;border:1.5px solid var(--line);border-radius:var(--rs);font-family:inherit;font-size:14.5px;color:var(--ink);background:var(--fog);transition:.18s}
+  .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--blue);background:#fff}
+  .fg textarea{resize:vertical;min-height:110px}
+
+  /* ---- FOOTER ---- */
+  footer{background:var(--ink);color:#9FB0CC;padding:64px 0 30px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:40px}
+  .foot-brand .logo{color:#fff;margin-bottom:14px}
+  .foot-brand p{font-size:13.5px;max-width:300px;line-height:1.7}
+  .foot-col h5{color:#fff;font-size:13px;text-transform:uppercase;letter-spacing:.08em;margin-bottom:16px}
+  .foot-col a{display:block;font-size:13.5px;margin-bottom:10px;transition:.18s}
+  .foot-col a:hover{color:#fff}
+  .foot-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12.5px}
+
+  @media(max-width:960px){
+    .hero-grid,.about-grid,.contact-grid,.careers-grid{grid-template-columns:1fr;gap:40px}
+    .hero-panel{order:-1}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:36px 20px}
+    .svc-grid,.case-grid,.quote-grid{grid-template-columns:1fr 1fr}
+    .team-grid{grid-template-columns:1fr 1fr}
+    .ind-grid{grid-template-columns:repeat(3,1fr)}
+    .stack-grid{grid-template-columns:1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .navlinks{display:none}
+    .navtoggle{display:flex}
+  }
+  @media(max-width:600px){
+    .svc-grid,.case-grid,.quote-grid,.team-grid,.frow{grid-template-columns:1fr}
+    .ind-grid{grid-template-columns:repeat(2,1fr)}
+    .foot-grid{grid-template-columns:1fr}
+    .wrap{padding:0 20px}
+    section{padding:60px 0}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap">
+    <nav>
+      <a href="#top" class="logo">
+        <svg viewBox="0 0 240 170" xmlns="http://www.w3.org/2000/svg" aria-label="Zephrix">
+          <path d="M20 24 L138 24" fill="none" stroke="#2B5CE6" stroke-width="22" stroke-linecap="round"/>
+          <path d="M130 32 L38 134" fill="none" stroke="#1A2340" stroke-width="22" stroke-linecap="round"/>
+          <path d="M28 142 L146 142" fill="none" stroke="#16B5D0" stroke-width="22" stroke-linecap="round"/>
+          <path d="M152 54 L200 54" fill="none" stroke="#2B5CE6" stroke-width="10" stroke-linecap="round"/>
+          <path d="M152 83 L188 83" fill="none" stroke="#1E86DB" stroke-width="10" stroke-linecap="round"/>
+          <path d="M152 112 L212 112" fill="none" stroke="#16B5D0" stroke-width="10" stroke-linecap="round"/>
+        </svg>
+        <span>Zephrix<br><span class="llc">Technologies LLC</span></span>
+      </a>
+      <div class="navlinks">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#industries">Industries</a>
+        <a href="#stack">Tech Stack</a>
+        <a href="#team">Team</a>
+        <a href="#careers">Careers</a>
+        <a href="#contact" class="btn btn-primary" style="padding:10px 20px">Start a project</a>
+      </div>
+      <button class="navtoggle" aria-label="Menu" onclick="document.querySelector('.navlinks').style.display=document.querySelector('.navlinks').style.display==='flex'?'none':'flex'">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<span id="top"></span>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg" id="streaks"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">AI · ERP · Cloud · QA Engineering</div>
+        <h1>Enterprise technology,<br>built at <span class="grad">wind speed</span>.</h1>
+        <p class="lead">Zephrix Technologies designs AI products, modernizes ERP systems, and delivers QA automation — engineered natively for AWS and Azure. We help enterprises, startups, and media houses ship next-generation software with confidence.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-primary">Book a discovery call →</a>
+          <a href="#services" class="btn btn-ghost">Explore services</a>
+        </div>
+        <div class="hero-trust">
+          <span><b>AWS</b> &amp; <b>Azure</b> native</span>
+          <span>•</span>
+          <span><b>24/7</b> onprem &amp; cloud support</span>
+          <span>•</span>
+          <span><b>ISO-aligned</b> delivery</span>
+        </div>
+      </div>
+      <div class="hero-panel">
+        <div class="hp-head">
+          <span class="hp-dot" style="background:#FF5F57"></span>
+          <span class="hp-dot" style="background:#FEBC2E"></span>
+          <span class="hp-dot" style="background:#28C840"></span>
+          <span class="hp-title">zephrix — delivery console</span>
+        </div>
+        <div class="hp-row">
+          <span><span class="hp-ic" style="background:rgba(43,92,230,.2)">🤖</span> AI Product Engine</span>
+          <span class="hp-badge" style="background:rgba(40,200,64,.15);color:#28C840">LIVE</span>
+        </div>
+        <div class="hp-row">
+          <span><span class="hp-ic" style="background:rgba(22,181,208,.2)">🧩</span> ERP Modernization</span>
+          <span class="hp-badge" style="background:rgba(40,200,64,.15);color:#28C840">DEPLOYED</span>
+        </div>
+        <div class="hp-row">
+          <span><span class="hp-ic" style="background:rgba(30,134,219,.2)">✅</span> QA Automation Suite</span>
+          <span class="hp-badge" style="background:rgba(40,200,64,.15);color:#28C840">PASSING</span>
+        </div>
+        <div class="hp-row">
+          <span><span class="hp-ic" style="background:rgba(77,123,255,.2)">🎬</span> Media House Platform</span>
+          <span class="hp-badge" style="background:rgba(254,188,46,.18);color:#FEBC2E">SCALING</span>
+        </div>
+        <div class="hp-row" style="margin-bottom:0">
+          <span><span class="hp-ic" style="background:rgba(22,181,208,.2)">☁️</span> Cloud Support Desk</span>
+          <span class="hp-badge" style="background:rgba(40,200,64,.15);color:#28C840">24/7</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats" style="padding:64px 0">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat"><div class="num" data-count="120">0</div><div class="lbl">Projects delivered</div></div>
+      <div class="stat"><div class="num" data-count="45">0</div><div class="lbl">Enterprise clients</div></div>
+      <div class="stat"><div class="num" data-count="60">0</div><div class="lbl">Engineers &amp; specialists</div></div>
+      <div class="stat"><div class="num" data-count="99" data-suffix=".9%">0</div><div class="lbl">Uptime on managed cloud</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SERVICES ============ -->
+<section id="services">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow">What we build</div>
+      <h2>Six ways Zephrix moves your roadmap forward</h2>
+      <p>From AI products to onprem support, every engagement is delivered by senior engineers and backed by cloud-native architecture.</p>
+    </div>
+    <div class="svc-grid">
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B5CE6" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg></div>
+        <h3>AI Product Development</h3>
+        <p>We design and ship production AI — from LLM copilots and document intelligence to computer vision and predictive analytics.</p>
+        <ul><li>LLM &amp; RAG applications</li><li>Custom model training &amp; MLOps</li><li>AI workflow automation</li></ul>
+      </div>
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1E86DB" stroke-width="2"><path d="M3 3h7v7H3zM14 3h7v7h-7zM14 14h7v7h-7zM3 14h7v7H3z"/></svg></div>
+        <h3>ERP Support &amp; Development</h3>
+        <p>Implementation, customization, and ongoing support for enterprise resource planning across finance, supply chain, and HR.</p>
+        <ul><li>ERP module development</li><li>Legacy migration &amp; integration</li><li>Managed ERP support</li></ul>
+      </div>
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#16B5D0" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <h3>QA Tool Solutions</h3>
+        <p>Our QA automation platform validates content, catches regressions, and accelerates release cycles for large-scale products.</p>
+        <ul><li>Automated QA pipelines</li><li>Content &amp; visual validation</li><li>Test tooling &amp; integrations</li></ul>
+      </div>
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#2B5CE6" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/></svg></div>
+        <h3>Media House Support</h3>
+        <p>Scalable platforms for publishers and media businesses — content workflows, digital asset management, and delivery at scale.</p>
+        <ul><li>Content &amp; publishing platforms</li><li>Digital asset management</li><li>Streaming &amp; delivery pipelines</li></ul>
+      </div>
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#1E86DB" stroke-width="2"><path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"/></svg></div>
+        <h3>Cloud &amp; Onprem Support</h3>
+        <p>Fully managed AWS and Azure operations plus onprem support — provisioning, monitoring, security, and 24/7 incident response.</p>
+        <ul><li>AWS &amp; Azure managed services</li><li>DevOps &amp; infrastructure as code</li><li>Onprem &amp; hybrid support</li></ul>
+      </div>
+
+      <div class="svc">
+        <div class="svc-ic"><svg viewBox="0 0 24 24" fill="none" stroke="#16B5D0" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+        <h3>Technical Guidance</h3>
+        <p>Architecture reviews and hands-on guidance to help your teams adopt next-generation technology the right way.</p>
+        <ul><li>Solution architecture</li><li>Modernization roadmaps</li><li>Team enablement &amp; training</li></ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ INDUSTRIES ============ -->
+<section id="industries" class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow">Industries served</div>
+      <h2>Deep expertise across regulated &amp; fast-moving sectors</h2>
+    </div>
+    <div class="ind-grid">
+      <div class="ind"><div class="ic">🏦</div><div class="nm">Finance &amp; Banking</div></div>
+      <div class="ind"><div class="ic">🏥</div><div class="nm">Healthcare</div></div>
+      <div class="ind"><div class="ic">🛒</div><div class="nm">Retail &amp; E-commerce</div></div>
+      <div class="ind"><div class="ic">🎬</div><div class="nm">Media &amp; Publishing</div></div>
+      <div class="ind"><div class="ic">🏭</div><div class="nm">Manufacturing</div></div>
+      <div class="ind"><div class="ic">🎓</div><div class="nm">Education</div></div>
+      <div class="ind"><div class="ic">🚚</div><div class="nm">Logistics</div></div>
+      <div class="ind"><div class="ic">⚡</div><div class="nm">Energy &amp; Utilities</div></div>
+      <div class="ind"><div class="ic">🏛️</div><div class="nm">Public Sector</div></div>
+      <div class="ind"><div class="ic">📡</div><div class="nm">Telecom</div></div>
+      <div class="ind"><div class="ic">🏘️</div><div class="nm">Real Estate</div></div>
+      <div class="ind"><div class="ic">✈️</div><div class="nm">Travel &amp; Hospitality</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASE STUDIES ============ -->
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Selected work</div>
+      <h2>Outcomes, not just deliverables</h2>
+      <p>A look at how Zephrix engineering translates into measurable business results.</p>
+    </div>
+    <div class="case-grid">
+      <div class="case">
+        <div class="case-top c1"><div class="case-tag">QA Automation</div><h3>Content Validation Platform</h3></div>
+        <div class="case-body">
+          <p>Built an AI-augmented QA pipeline for a large website migration — automating content checks that were previously manual.</p>
+          <div class="case-metrics"><div class="m"><div class="v">85%</div><div class="k">Faster QA</div></div><div class="m"><div class="v">500+</div><div class="k">Pages validated</div></div></div>
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-top c2"><div class="case-tag">ERP Modernization</div><h3>Finance ERP Migration</h3></div>
+        <div class="case-body">
+          <p>Migrated a legacy on-prem ERP to a cloud-native Azure deployment with zero-downtime cutover and integrated reporting.</p>
+          <div class="case-metrics"><div class="m"><div class="v">40%</div><div class="k">Lower TCO</div></div><div class="m"><div class="v">0</div><div class="k">Downtime</div></div></div>
+        </div>
+      </div>
+      <div class="case">
+        <div class="case-top c3"><div class="case-tag">AI Product</div><h3>Document Intelligence</h3></div>
+        <div class="case-body">
+          <p>Delivered an LLM-powered document processing product that extracts, classifies, and verifies records at scale on AWS.</p>
+          <div class="case-metrics"><div class="m"><div class="v">10x</div><div class="k">Throughput</div></div><div class="m"><div class="v">98%</div><div class="k">Accuracy</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="alt">
+  <div class="wrap">
+    <div class="about-grid">
+      <div class="about-vis">
+        <div class="pillars">
+          <div class="pillar"><span class="pn">01</span><div><h4>Cloud-native by default</h4><p>Every solution is architected for AWS and Azure — scalable, secure, and cost-efficient from day one.</p></div></div>
+          <div class="pillar"><span class="pn">02</span><div><h4>Senior engineering</h4><p>You work with experienced architects and engineers, not layers of handoffs.</p></div></div>
+          <div class="pillar"><span class="pn">03</span><div><h4>Outcome-driven</h4><p>We measure success in business impact — speed to value, reliability, and ROI.</p></div></div>
+        </div>
+      </div>
+      <div class="about-txt">
+        <div class="eyebrow">About Zephrix</div>
+        <h2>A technology partner built for what's next</h2>
+        <p>Zephrix Technologies LLC is an engineering company helping enterprises, startups, and media businesses build modern software. We combine AI product development, ERP expertise, QA automation, and cloud operations under one roof.</p>
+        <p>Our name comes from <em>zephyr</em> — a fast, favorable wind. That's how we approach delivery: momentum, precision, and lift for your business.</p>
+        <div class="vals">
+          <div class="val"><b>2024</b><span>Founded</span></div>
+          <div class="val"><b>Phoenix, AZ</b><span>Headquarters</span></div>
+          <div class="val"><b>Global</b><span>Delivery reach</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TECH STACK / PARTNERS ============ -->
+<section id="stack">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow">Tech stack &amp; partners</div>
+      <h2>The tools we build next-generation technology with</h2>
+    </div>
+    <div class="stack-grid">
+      <div class="stack-col">
+        <h4>Cloud &amp; Infrastructure</h4>
+        <div class="chips"><span class="chip">AWS</span><span class="chip">Microsoft Azure</span><span class="chip">Kubernetes</span><span class="chip">Docker</span><span class="chip">Terraform</span><span class="chip">Serverless</span><span class="chip">CI/CD</span></div>
+      </div>
+      <div class="stack-col">
+        <h4>AI &amp; Data</h4>
+        <div class="chips"><span class="chip">OpenAI / LLMs</span><span class="chip">Azure AI</span><span class="chip">Amazon Bedrock</span><span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Vector DBs</span><span class="chip">Snowflake</span></div>
+      </div>
+      <div class="stack-col">
+        <h4>Development</h4>
+        <div class="chips"><span class="chip">React</span><span class="chip">Node.js</span><span class="chip">Python</span><span class="chip">.NET</span><span class="chip">Java</span><span class="chip">TypeScript</span><span class="chip">DynamoDB</span><span class="chip">PostgreSQL</span></div>
+      </div>
+      <div class="stack-col">
+        <h4>ERP &amp; QA</h4>
+        <div class="chips"><span class="chip">SAP</span><span class="chip">Oracle ERP</span><span class="chip">Dynamics 365</span><span class="chip">Selenium</span><span class="chip">Playwright</span><span class="chip">BugHerd</span><span class="chip">Airtable</span></div>
+      </div>
+    </div>
+    <div class="partners">
+      <div class="partner">AWS <span>Partner</span></div>
+      <div class="partner">Microsoft <span>Azure</span></div>
+      <div class="partner">Git<span>Hub</span></div>
+      <div class="partner"><span>Figma</span></div>
+      <div class="partner">Docker</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section id="team" class="alt">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow">Leadership &amp; team</div>
+      <h2>Engineers who've shipped at scale</h2>
+    </div>
+    <div class="team-grid">
+      <div class="member"><div class="avatar" style="background:linear-gradient(135deg,#2B5CE6,#1E86DB)">VS</div><h4>Vishwajeet Singh</h4><div class="role">Founder &amp; Principal Architect</div><p>Enterprise architecture across cloud, data, and AI strategy.</p></div>
+      <div class="member"><div class="avatar" style="background:linear-gradient(135deg,#16B5D0,#1E86DB)">AI</div><h4>AI Practice</h4><div class="role">Machine Learning</div><p>LLM applications, MLOps, and applied data science.</p></div>
+      <div class="member"><div class="avatar" style="background:linear-gradient(135deg,#1A2340,#2B3A63)">QA</div><h4>QA Engineering</h4><div class="role">Automation</div><p>Test tooling, content validation, and release quality.</p></div>
+      <div class="member"><div class="avatar" style="background:linear-gradient(135deg,#2B5CE6,#16B5D0)">☁️</div><h4>Cloud Ops</h4><div class="role">AWS &amp; Azure</div><p>Managed infrastructure, DevOps, and 24/7 support.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section id="testimonials">
+  <div class="wrap">
+    <div class="sec-head center">
+      <div class="eyebrow">What partners say</div>
+      <h2>Trusted by teams that ship</h2>
+    </div>
+    <div class="quote-grid">
+      <div class="quote">
+        <div class="mark">"</div>
+        <p>Zephrix rebuilt our QA process into an automated pipeline. Releases that took a week now take a day, with fewer defects reaching production.</p>
+        <div class="who"><div class="av" style="background:#2B5CE6">DK</div><div><b>Director of Development</b><span>Digital Agency</span></div></div>
+      </div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p>Their ERP migration was flawless — zero downtime and a cleaner reporting layer. The team understood our business, not just the tech.</p>
+        <div class="who"><div class="av" style="background:#16B5D0">FN</div><div><b>Finance Operations Lead</b><span>Manufacturing</span></div></div>
+      </div>
+      <div class="quote">
+        <div class="mark">"</div>
+        <p>The AI document product they delivered handles volumes we couldn't touch before. Genuinely production-grade from day one.</p>
+        <div class="who"><div class="av" style="background:#1E86DB">PM</div><div><b>Product Manager</b><span>Insurance</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CAREERS ============ -->
+<section id="careers" class="alt">
+  <div class="wrap">
+    <div class="careers-grid">
+      <div>
+        <div class="eyebrow">Careers</div>
+        <h2 style="font-size:clamp(28px,3.4vw,40px);margin:16px 0 16px">Build the future of enterprise tech with us</h2>
+        <p style="color:var(--slate);font-size:16px;margin-bottom:24px">We're hiring engineers, QA specialists, and cloud experts who want to work on meaningful products for real enterprise clients. Remote-friendly, senior-led, and growth-focused.</p>
+        <a href="#contact" class="btn btn-primary">See all openings →</a>
+      </div>
+      <div class="jobs">
+        <div class="job"><div><h4>Senior AI / ML Engineer</h4><div class="meta">Remote · Full-time · AI Practice</div></div><div class="arrow">→</div></div>
+        <div class="job"><div><h4>Cloud DevOps Engineer (AWS/Azure)</h4><div class="meta">Remote · Full-time · Cloud Ops</div></div><div class="arrow">→</div></div>
+        <div class="job"><div><h4>QA Automation Engineer</h4><div class="meta">Remote · Full-time · QA Engineering</div></div><div class="arrow">→</div></div>
+        <div class="job"><div><h4>ERP Functional Consultant</h4><div class="meta">Hybrid · Full-time · ERP Practice</div></div><div class="arrow">→</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div class="contact-info">
+        <div class="eyebrow">Get in touch</div>
+        <h2>Let's build something that moves fast</h2>
+        <p>Tell us about your project, your team, or your idea. Whether you're an enterprise, a startup, or an investor — we'll get back within one business day.</p>
+        <div class="cinfo-row"><div class="cinfo-ic">✉️</div><div><b>Email</b><span>hello@zephrixtech.com</span></div></div>
+        <div class="cinfo-row"><div class="cinfo-ic">📍</div><div><b>Headquarters</b><span>Phoenix, Arizona, USA</span></div></div>
+        <div class="cinfo-row"><div class="cinfo-ic">🌐</div><div><b>Delivery</b><span>Global · Remote-first</span></div></div>
+      </div>
+      <form onsubmit="event.preventDefault();this.querySelector('.formmsg').style.display='block';this.reset();">
+        <div class="frow">
+          <div class="fg"><label>Full name</label><input type="text" required placeholder="Your name"></div>
+          <div class="fg"><label>Email</label><input type="email" required placeholder="you@company.com"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label>Company</label><input type="text" placeholder="Company name"></div>
+          <div class="fg"><label>I am a…</label><select><option>Enterprise client</option><option>Startup</option><option>Job seeker</option><option>Investor / partner</option><option>Other</option></select></div>
+        </div>
+        <div class="fg"><label>What do you need?</label><select><option>AI Product Development</option><option>ERP Support &amp; Development</option><option>QA Tool Solution</option><option>Media House Support</option><option>Cloud &amp; Onprem Support</option><option>Technical Guidance</option></select></div>
+        <div class="fg"><label>Message</label><textarea required placeholder="Tell us about your project…"></textarea></div>
+        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center">Send message →</button>
+        <div class="formmsg" style="display:none;margin-top:16px;padding:13px;background:#E8F7EE;border:1px solid #A6E4BE;border-radius:10px;color:#1B7A40;font-size:14px;font-weight:600;text-align:center">✓ Thanks — your message has been received. We'll respond within one business day.</div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="logo">
+          <svg viewBox="0 0 240 170" width="42" height="34" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 24 L138 24" fill="none" stroke="#4D7BFF" stroke-width="22" stroke-linecap="round"/>
+            <path d="M130 32 L38 134" fill="none" stroke="#FFFFFF" stroke-width="22" stroke-linecap="round"/>
+            <path d="M28 142 L146 142" fill="none" stroke="#3ED0E8" stroke-width="22" stroke-linecap="round"/>
+            <path d="M152 54 L200 54" fill="none" stroke="#4D7BFF" stroke-width="10" stroke-linecap="round"/>
+            <path d="M152 83 L188 83" fill="none" stroke="#5AA0F5" stroke-width="10" stroke-linecap="round"/>
+            <path d="M152 112 L212 112" fill="none" stroke="#3ED0E8" stroke-width="10" stroke-linecap="round"/>
+          </svg>
+          <span style="color:#fff">Zephrix</span>
+        </div>
+        <p>Enterprise technology built at wind speed. AI products, ERP, QA automation, and cloud operations for teams that ship.</p>
+      </div>
+      <div class="foot-col"><h5>Services</h5><a href="#services">AI Product Development</a><a href="#services">ERP Support</a><a href="#services">QA Tool Solutions</a><a href="#services">Cloud &amp; Onprem</a></div>
+      <div class="foot-col"><h5>Company</h5><a href="#about">About</a><a href="#work">Case Studies</a><a href="#team">Team</a><a href="#careers">Careers</a></div>
+      <div class="foot-col"><h5>Connect</h5><a href="#contact">Contact</a><a href="#">LinkedIn</a><a href="#">GitHub</a><a href="#">X / Twitter</a></div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Zephrix Technologies LLC. All rights reserved.</span>
+      <span>Phoenix, Arizona · Privacy · Terms</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Animated hero streaks (wind motif)
+  (function(){
+    const box=document.getElementById('streaks');
+    if(!box||window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    const colors=['#2B5CE6','#1E86DB','#16B5D0','#4D7BFF'];
+    for(let i=0;i<14;i++){
+      const s=document.createElement('div');
+      s.className='streak';
+      const w=60+Math.random()*180;
+      s.style.width=w+'px';
+      s.style.top=(Math.random()*100)+'%';
+      s.style.left=(-Math.random()*40)+'%';
+      s.style.background='linear-gradient(90deg,transparent,'+colors[i%4]+')';
+      s.style.animationDuration=(6+Math.random()*10)+'s';
+      s.style.animationDelay=(-Math.random()*10)+'s';
+      s.style.opacity=(0.15+Math.random()*0.35);
+      box.appendChild(s);
+    }
+  })();
+
+  // Count-up stats
+  (function(){
+    const nums=document.querySelectorAll('.num[data-count]');
+    const run=el=>{
+      const target=+el.dataset.count, suf=el.dataset.suffix||'+';
+      let cur=0; const step=target/60;
+      const t=setInterval(()=>{
+        cur+=step;
+        if(cur>=target){cur=target;clearInterval(t);}
+        el.textContent=Math.floor(cur)+(el.dataset.suffix?'':suf);
+        if(cur===target&&el.dataset.suffix)el.textContent=target+suf;
+      },20);
+    };
+    const io=new IntersectionObserver(es=>{
+      es.forEach(e=>{if(e.isIntersecting){run(e.target);io.unobserve(e.target);}});
+    },{threshold:.5});
+    nums.forEach(n=>io.observe(n));
+  })();
+
+  // Scroll reveal (fail-safe: content shows even if observer never fires)
+  (function(){
+    if(window.matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+    if(!('IntersectionObserver' in window))return;
+    const els=document.querySelectorAll('.svc,.case,.quote,.member,.ind,.stack-col,.pillar,.job');
+    els.forEach(el=>{el.style.opacity=0;el.style.transform='translateY(24px)';el.style.transition='opacity .6s ease,transform .6s ease';});
+    const show=el=>{el.style.opacity=1;el.style.transform='none';};
+    const io=new IntersectionObserver(es=>{
+      es.forEach((e,i)=>{if(e.isIntersecting){setTimeout(()=>show(e.target),(i%6)*60);io.unobserve(e.target);}});
+    },{threshold:.12,rootMargin:'0px 0px -40px 0px'});
+    els.forEach(el=>io.observe(el));
+    // Safety net: reveal everything after 2.5s no matter what
+    setTimeout(()=>els.forEach(show),2500);
+  })();
+</script>
+</body>
+</html>
